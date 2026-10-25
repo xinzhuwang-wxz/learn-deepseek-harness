@@ -1,0 +1,23 @@
+# Generated site, local exports and release bundles
+/site/
+/output/
+/dist/
+/tmp/
+/research/
+# Python and authoring environments
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+node_modules/
+# Local credentials and editor/OS files
+.env
+.env.*
+!.env.example
+.DS_Store
+*.swp
+.idea/
+.vscode/
+# Local reading exports are never part of the source repository
+*.pdf

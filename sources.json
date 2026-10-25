@@ -1,0 +1,209 @@
+{
+  "architecture": {
+    "label": "总体架构与事件域",
+    "url": "https://github.com/deepseek-ai/deepseek-harness/blob/22ddee3792402c3e70ec5f86a63c3e3e895a2f60/docs/architecture.zh.md#L7-L173",
+    "path": "docs/architecture.zh.md",
+    "start": 7,
+    "end": 173,
+    "symbol": "## Cordis",
+    "sha256": "a4643f71e1e3e0e38d64910ef23a4648960538e79d0a1d36bed138d6d32fa544"
+  },
+  "loop": {
+    "label": "ReactLoopAgent 的步骤驱动",
+    "url": "https://github.com/deepseek-ai/deepseek-harness/blob/22ddee3792402c3e70ec5f86a63c3e3e895a2f60/packages/core/agent-loop/src/agent.ts#L428-L617",
+    "path": "packages/core/agent-loop/src/agent.ts",
+    "start": 428,
+    "end": 617,
+    "symbol": "  private async step(",
+    "sha256": "3729451d21314089d0d678c31be737553926edbf28eda971c30239dd5b3bc71c"
+  },
+  "prepare": {
+    "label": "请求准备与日志提交",
+    "url": "https://github.com/deepseek-ai/deepseek-harness/blob/22ddee3792402c3e70ec5f86a63c3e3e895a2f60/packages/core/agent-loop/src/agent.ts#L606-L725",
+    "path": "packages/core/agent-loop/src/agent.ts",
+    "start": 606,
+    "end": 725,
+    "symbol": "  private async prepare",
+    "sha256": "3729451d21314089d0d678c31be737553926edbf28eda971c30239dd5b3bc71c"
+  },
+  "loop-contract": {
+    "label": "默认驱动器的公开约定",
+    "url": "https://github.com/deepseek-ai/deepseek-harness/blob/22ddee3792402c3e70ec5f86a63c3e3e895a2f60/packages/core/agent-loop/README.md#L73-L84",
+    "path": "packages/core/agent-loop/README.md",
+    "start": 73,
+    "end": 84,
+    "symbol": "### What a step does",
+    "sha256": "9a487198069995cf060c656fbdc59ee938f51efacce618c9711b27a379da8d2b"
+  },
+  "session": {
+    "label": "Session 及消息投影",
+    "url": "https://github.com/deepseek-ai/deepseek-harness/blob/22ddee3792402c3e70ec5f86a63c3e3e895a2f60/packages/core/session/src/index.ts#L999-L1024",
+    "path": "packages/core/session/src/index.ts",
+    "start": 999,
+    "end": 1024,
+    "symbol": "  deriveMessages()",
+    "sha256": "343eeb693620bf3de6d21fcecb685fb7288b623c0bd4f655f29a23e92ce2f634"
+  },
+  "repair": {
+    "label": "未开始与结果未知的恢复分类",
+    "url": "https://github.com/deepseek-ai/deepseek-harness/blob/22ddee3792402c3e70ec5f86a63c3e3e895a2f60/packages/core/session/src/repair.ts#L15-L196",
+    "path": "packages/core/session/src/repair.ts",
+    "start": 15,
+    "end": 196,
+    "symbol": "export const TOOL_NOT_STARTED",
+    "sha256": "c2835c920aba203c709e44686e55f43bb4d357ea59cfef3561c371b8ff115540"
+  },
+  "scope": {
+    "label": "作用域的继承与生命周期",
+    "url": "https://github.com/deepseek-ai/deepseek-harness/blob/22ddee3792402c3e70ec5f86a63c3e3e895a2f60/packages/core/scope/src/index.ts#L137-L171",
+    "path": "packages/core/scope/src/index.ts",
+    "start": 137,
+    "end": 171,
+    "symbol": "export function createScope(",
+    "sha256": "074b8f0c3fa2e240effd0a7e65c54be7c14debc1e53bb712334ce20d15affe4a"
+  },
+  "registry": {
+    "label": "工具注册表与单调守卫",
+    "url": "https://github.com/deepseek-ai/deepseek-harness/blob/22ddee3792402c3e70ec5f86a63c3e3e895a2f60/packages/core/tools/src/index.ts#L99-L218",
+    "path": "packages/core/tools/src/index.ts",
+    "start": 99,
+    "end": 218,
+    "symbol": "export class",
+    "sha256": "020c566150cf82dd49d368f5585043c73c191aaeba9103fd77a3efde6ee909dd"
+  },
+  "pipeline": {
+    "label": "工具准备阶段的审批和守卫",
+    "url": "https://github.com/deepseek-ai/deepseek-harness/blob/22ddee3792402c3e70ec5f86a63c3e3e895a2f60/packages/core/tools/src/pipeline.ts#L190-L237",
+    "path": "packages/core/tools/src/pipeline.ts",
+    "start": 190,
+    "end": 237,
+    "symbol": "  async prepare(",
+    "sha256": "07f0a7150b3ef190e0922189628764d1544e0cb2796fc6a6a5deb22b27da13c4"
+  },
+  "approval": {
+    "label": "无审批通道时拒绝执行",
+    "url": "https://github.com/deepseek-ai/deepseek-harness/blob/22ddee3792402c3e70ec5f86a63c3e3e895a2f60/packages/core/tools/src/pipeline.ts#L436-L474",
+    "path": "packages/core/tools/src/pipeline.ts",
+    "start": 436,
+    "end": 474,
+    "symbol": "    const approval = this.ctx.get",
+    "sha256": "07f0a7150b3ef190e0922189628764d1544e0cb2796fc6a6a5deb22b27da13c4"
+  },
+  "batch": {
+    "label": "并发池与独占屏障",
+    "url": "https://github.com/deepseek-ai/deepseek-harness/blob/22ddee3792402c3e70ec5f86a63c3e3e895a2f60/packages/core/tools/src/batch.ts#L50-L279",
+    "path": "packages/core/tools/src/batch.ts",
+    "start": 50,
+    "end": 279,
+    "symbol": "export async function executeToolBatch(",
+    "sha256": "5451e17f844cea8a56b8bf6dfadbf357d3081c4796d0b1046b761a82e4d8e355"
+  },
+  "parallel-test": {
+    "label": "并发属性必须显式为 true",
+    "url": "https://github.com/deepseek-ai/deepseek-harness/blob/22ddee3792402c3e70ec5f86a63c3e3e895a2f60/packages/core/tools/tests/execution-mode.spec.ts#L26-L130",
+    "path": "packages/core/tools/tests/execution-mode.spec.ts",
+    "start": 26,
+    "end": 130,
+    "symbol": "describe('ToolExecutionPipeline.executionMode'",
+    "sha256": "6b2532e07da949fb2c220eea21d97c62e2d114314ffc86d2755581187c328e62"
+  },
+  "pairing": {
+    "label": "压缩边界的工具配对检查",
+    "url": "https://github.com/deepseek-ai/deepseek-harness/blob/22ddee3792402c3e70ec5f86a63c3e3e895a2f60/packages/compaction/compaction/src/tool-pairing.ts#L29-L83",
+    "path": "packages/compaction/compaction/src/tool-pairing.ts",
+    "start": 29,
+    "end": 83,
+    "symbol": "function eventDelta(",
+    "sha256": "30916d32b421553a7753aa56f5e5890bdfa2bf41b0ce3c8f42bd529fd2da4b9a"
+  },
+  "compaction": {
+    "label": "CompactionEngine 的替换契约",
+    "url": "https://github.com/deepseek-ai/deepseek-harness/blob/22ddee3792402c3e70ec5f86a63c3e3e895a2f60/packages/compaction/compaction/src/index.ts#L119-L195",
+    "path": "packages/compaction/compaction/src/index.ts",
+    "start": 119,
+    "end": 195,
+    "symbol": "export abstract class CompactionEngine",
+    "sha256": "1d50528c7daf5950e79d7edb2fabca48da6682fc536e911c9f64e4d0bdea4ba1"
+  },
+  "skill": {
+    "label": "技能目录与按需正文",
+    "url": "https://github.com/deepseek-ai/deepseek-harness/blob/22ddee3792402c3e70ec5f86a63c3e3e895a2f60/packages/skill/skill/src/index.ts#L57-L106",
+    "path": "packages/skill/skill/src/index.ts",
+    "start": 57,
+    "end": 106,
+    "symbol": "export interface SkillSummary",
+    "sha256": "af4fad67fb086c3f5c93aed4604830718b4535e7e59a60d680404b07ea08477c"
+  },
+  "depth": {
+    "label": "持久化委派深度不回退",
+    "url": "https://github.com/deepseek-ai/deepseek-harness/blob/22ddee3792402c3e70ec5f86a63c3e3e895a2f60/packages/subagent/subagent/src/depth.ts#L28-L39",
+    "path": "packages/subagent/subagent/src/depth.ts",
+    "start": 28,
+    "end": 39,
+    "symbol": "export function delegationDepthOf(",
+    "sha256": "52fe8c33e3becc3c5925ce4c63cfa097dc67158207e50db4622c7b9c15bc9b6f"
+  },
+  "fork": {
+    "label": "按事件前缀构造子会话",
+    "url": "https://github.com/deepseek-ai/deepseek-harness/blob/22ddee3792402c3e70ec5f86a63c3e3e895a2f60/packages/core/session/src/fork.ts#L21-L30",
+    "path": "packages/core/session/src/fork.ts",
+    "start": 21,
+    "end": 30,
+    "symbol": "export function buildForkSeed(",
+    "sha256": "de80ecbf0e6a7961c096a2d7f0304bc6f6c83f897268304e28352357da06bfb0"
+  },
+  "profiles": {
+    "label": "Profile 与分层组合",
+    "url": "https://github.com/deepseek-ai/deepseek-harness/blob/22ddee3792402c3e70ec5f86a63c3e3e895a2f60/docs/architecture.zh.md#L13-L37",
+    "path": "docs/architecture.zh.md",
+    "start": 13,
+    "end": 37,
+    "symbol": "## Profile",
+    "sha256": "a4643f71e1e3e0e38d64910ef23a4648960538e79d0a1d36bed138d6d32fa544"
+  },
+  "cordis": {
+    "label": "Cordis 的可逆副作用与分发语义",
+    "url": "https://github.com/deepseek-ai/deepseek-harness/blob/22ddee3792402c3e70ec5f86a63c3e3e895a2f60/docs/cordis-primer.zh.md#L7-L51",
+    "path": "docs/cordis-primer.zh.md",
+    "start": 7,
+    "end": 51,
+    "symbol": "## 五个核心概念",
+    "sha256": "db95af7a5ac91522087705c37a2c6aedad0767952b3f3980616f4d43bdee3f34"
+  },
+  "safety": {
+    "label": "开发预览安全边界",
+    "url": "https://github.com/deepseek-ai/deepseek-harness/blob/22ddee3792402c3e70ec5f86a63c3e3e895a2f60/SAFETY.md#L1-L27",
+    "path": "SAFETY.md",
+    "start": 1,
+    "end": 27,
+    "symbol": "# Safety",
+    "sha256": "62075bb51e0f7790441e7722ff12063107b4866019332e71ef01b63b6f880fee"
+  },
+  "completion": {
+    "label": "成功结果最终物化前的取消检查",
+    "url": "https://github.com/deepseek-ai/deepseek-harness/blob/22ddee3792402c3e70ec5f86a63c3e3e895a2f60/packages/core/tools/src/pipeline.ts#L336-L359",
+    "path": "packages/core/tools/src/pipeline.ts",
+    "start": 336,
+    "end": 359,
+    "symbol": "  async complete(",
+    "sha256": "07f0a7150b3ef190e0922189628764d1544e0cb2796fc6a6a5deb22b27da13c4"
+  },
+  "skill-render": {
+    "label": "技能正文渲染与持久来源",
+    "url": "https://github.com/deepseek-ai/deepseek-harness/blob/22ddee3792402c3e70ec5f86a63c3e3e895a2f60/packages/skill/skill/src/index.ts#L139-L183",
+    "path": "packages/skill/skill/src/index.ts",
+    "start": 139,
+    "end": 183,
+    "symbol": "/**",
+    "sha256": "af4fad67fb086c3f5c93aed4604830718b4535e7e59a60d680404b07ea08477c"
+  },
+  "child-depth": {
+    "label": "子级深度递增与绝对上限",
+    "url": "https://github.com/deepseek-ai/deepseek-harness/blob/22ddee3792402c3e70ec5f86a63c3e3e895a2f60/packages/subagent/subagent/src/child-agent.ts#L49-L58",
+    "path": "packages/subagent/subagent/src/child-agent.ts",
+    "start": 49,
+    "end": 58,
+    "symbol": "export function resolveChildDepth(",
+    "sha256": "054ebe5750efccb3bf74c72770a54fc33548bd041bb9230586d212943162148f"
+  }
+}

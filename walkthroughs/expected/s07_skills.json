@@ -1,0 +1,162 @@
+{
+  "visibility": {
+    "catalog": [
+      {
+        "name": "explain",
+        "description": "Explain a verified result"
+      }
+    ],
+    "body_already_stored": true,
+    "load_counts": [
+      0,
+      1,
+      1
+    ],
+    "request_has_marker": [
+      false,
+      false,
+      true
+    ],
+    "injection_recorded": true,
+    "first_request_still_has_marker": false,
+    "actual_requests": [
+      [
+        {
+          "role": "user",
+          "text": "Explain the confirmed result 42."
+        },
+        {
+          "role": "user",
+          "text": "[{\"description\": \"Explain a verified result\", \"name\": \"explain\"}]"
+        }
+      ],
+      [
+        {
+          "role": "user",
+          "text": "Explain the confirmed result 42."
+        },
+        {
+          "role": "user",
+          "text": "[{\"description\": \"Explain a verified result\", \"name\": \"explain\"}]"
+        },
+        {
+          "role": "assistant",
+          "text": "Received."
+        }
+      ],
+      [
+        {
+          "role": "user",
+          "text": "Explain the confirmed result 42."
+        },
+        {
+          "role": "user",
+          "text": "[{\"description\": \"Explain a verified result\", \"name\": \"explain\"}]"
+        },
+        {
+          "role": "assistant",
+          "text": "Received."
+        },
+        {
+          "role": "assistant",
+          "text": "Received."
+        },
+        {
+          "role": "user",
+          "text": "MARKER_EXPLAIN: Show the input, operation, and confirmed output.",
+          "skill": "explain"
+        }
+      ]
+    ]
+  },
+  "omitted_injection": {
+    "catalog": [
+      {
+        "name": "explain",
+        "description": "Explain a verified result"
+      }
+    ],
+    "body_already_stored": true,
+    "load_counts": [
+      0,
+      1,
+      1
+    ],
+    "request_has_marker": [
+      false,
+      false,
+      false
+    ],
+    "injection_recorded": false,
+    "first_request_still_has_marker": false,
+    "actual_requests": [
+      [
+        {
+          "role": "user",
+          "text": "Explain the confirmed result 42."
+        },
+        {
+          "role": "user",
+          "text": "[{\"description\": \"Explain a verified result\", \"name\": \"explain\"}]"
+        }
+      ],
+      [
+        {
+          "role": "user",
+          "text": "Explain the confirmed result 42."
+        },
+        {
+          "role": "user",
+          "text": "[{\"description\": \"Explain a verified result\", \"name\": \"explain\"}]"
+        },
+        {
+          "role": "assistant",
+          "text": "Received."
+        }
+      ],
+      [
+        {
+          "role": "user",
+          "text": "Explain the confirmed result 42."
+        },
+        {
+          "role": "user",
+          "text": "[{\"description\": \"Explain a verified result\", \"name\": \"explain\"}]"
+        },
+        {
+          "role": "assistant",
+          "text": "Received."
+        },
+        {
+          "role": "assistant",
+          "text": "Received."
+        }
+      ]
+    ]
+  },
+  "retrieval": {
+    "load_counts": [
+      0,
+      1,
+      2,
+      2
+    ],
+    "same_body": true,
+    "missing_skill_error": "KeyError"
+  },
+  "policy": {
+    "skill_in_request": true,
+    "body_entries": [],
+    "result": {
+      "call_id": "w1",
+      "ok": false,
+      "code": "DENIED"
+    },
+    "next_request_result": {
+      "role": "tool",
+      "call_id": "w1",
+      "ok": false,
+      "code": "DENIED"
+    }
+  }
+}

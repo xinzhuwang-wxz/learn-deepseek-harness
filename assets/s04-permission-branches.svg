@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 620" role="img" aria-labelledby="title desc">
+<title id="title">权限只能由待确认变允许，不能由后续守卫重新放行</title><desc id="desc">decide得到deny直接DENIED。ask无审批回调或结果不严格为True时DENIED，严格为True时转allow。allow之后按序运行守卫，任意非None返回GUARD_DENIED，全部None才走参数校验和工具体。所有拒绝为终点，没有回到allow的边。</desc>
+<defs><marker id="arr" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8" fill="#51657d"/></marker></defs>
+<rect width="1000" height="620" rx="16" fill="#f3f7ff"/>
+<g font-family="system-ui,sans-serif" fill="#172c49"><text x="28" y="38" font-size="22" font-weight="700">权限分支：没有通道 ≠ 已批准；后续守卫不能翻转拒绝</text>
+<rect x="275" y="65" width="380" height="52" rx="8" fill="#245ee8"/><text x="295" y="98" font-size="18" fill="white">decide(snapshot(c1)) → decision</text>
+<path d="M465 119V147H160V178M465 147V178M465 147H800V178" stroke="#51657d" fill="none" marker-end="url(#arr)"/>
+<rect x="50" y="184" width="220" height="50" rx="8" fill="white" stroke="#b9cce4"/><text x="120" y="216" font-size="18">deny / 其他</text>
+<rect x="355" y="184" width="220" height="50" rx="8" fill="white" stroke="#b9cce4"/><text x="445" y="216" font-size="18">ask</text>
+<rect x="690" y="184" width="220" height="50" rx="8" fill="#e3f5ee" stroke="#7db99c"/><text x="772" y="216" font-size="18">allow</text>
+<path d="M160 236V314M465 236V262" stroke="#51657d" marker-end="url(#arr)"/>
+<rect x="315" y="268" width="300" height="66" rx="8" fill="white" stroke="#b9cce4"/><text x="333" y="296" font-size="16">有 approve，且返回值 is True？</text><text x="333" y="320" font-size="14">yes 字符串 / 1 / False 都不满足</text>
+<path d="M313 301H245V315M617 301H800V373M800 236V373" stroke="#51657d" fill="none" marker-end="url(#arr)"/>
+<text x="267" y="289" font-size="15">否</text><text x="640" y="289" font-size="15">是</text>
+<rect x="50" y="320" width="220" height="62" rx="8" fill="#fff0ea" stroke="#d9a18a"/><text x="117" y="347" font-size="18">DENIED</text><text x="82" y="370" font-size="14">终点：body_calls = 0</text>
+<rect x="642" y="380" width="316" height="66" rx="8" fill="white" stroke="#b9cce4"/><text x="662" y="407" font-size="17">每个 guard(snapshot(c1))</text><text x="662" y="431" font-size="15">全部返回 None 才能继续</text>
+<path d="M640 413H270V477M800 448V477" stroke="#51657d" fill="none" marker-end="url(#arr)"/>
+<text x="350" y="402" font-size="15">任一非 None（包括错误类型的 False）</text><text x="820" y="470" font-size="14">全部 None</text>
+<rect x="50" y="484" width="440" height="64" rx="8" fill="#fff0ea" stroke="#d9a18a"/><text x="70" y="511" font-size="18">GUARD_DENIED</text><text x="70" y="536" font-size="15">终点：body_calls = 0，没有重新 allow 的分支</text>
+<rect x="642" y="484" width="316" height="64" rx="8" fill="#e3f5ee" stroke="#7db99c"/><text x="662" y="511" font-size="17">继续参数校验与取消检查</text><text x="662" y="536" font-size="15">仍未进入工具体，也未保证成功</text>
+<text x="28" y="589" font-size="15">本图对应教学 Policy.check。生产审批使用具名结果类型；宿主隔离不在这张权限图的承诺之内。</text>
+</g></svg>

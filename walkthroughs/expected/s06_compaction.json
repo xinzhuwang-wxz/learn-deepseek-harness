@@ -1,0 +1,193 @@
+{
+  "cut_after_call": {
+    "count": 2,
+    "before": [
+      {
+        "position": 0,
+        "seq": 0,
+        "type": "user/message"
+      },
+      {
+        "position": 1,
+        "seq": 2,
+        "type": "assistant/message"
+      },
+      {
+        "position": 2,
+        "seq": 4,
+        "type": "tool/result"
+      },
+      {
+        "position": 3,
+        "seq": 7,
+        "type": "assistant/message"
+      }
+    ],
+    "selected_seqs": [
+      0,
+      2
+    ],
+    "pending_at_cut": [
+      "c1"
+    ],
+    "accepted": false,
+    "error": "compaction would cut a tool call/result pair",
+    "log_before": 9,
+    "log_after": 9,
+    "after": [
+      {
+        "position": 0,
+        "seq": 0,
+        "type": "user/message"
+      },
+      {
+        "position": 1,
+        "seq": 2,
+        "type": "assistant/message"
+      },
+      {
+        "position": 2,
+        "seq": 4,
+        "type": "tool/result"
+      },
+      {
+        "position": 3,
+        "seq": 7,
+        "type": "assistant/message"
+      }
+    ]
+  },
+  "cut_after_result": {
+    "count": 3,
+    "before": [
+      {
+        "position": 0,
+        "seq": 0,
+        "type": "user/message"
+      },
+      {
+        "position": 1,
+        "seq": 2,
+        "type": "assistant/message"
+      },
+      {
+        "position": 2,
+        "seq": 4,
+        "type": "tool/result"
+      },
+      {
+        "position": 3,
+        "seq": 7,
+        "type": "assistant/message"
+      }
+    ],
+    "selected_seqs": [
+      0,
+      2,
+      4
+    ],
+    "pending_at_cut": [],
+    "accepted": true,
+    "replacement_seq": 9,
+    "log_before": 9,
+    "log_after": 10,
+    "after": [
+      {
+        "position": 0,
+        "seq": 9,
+        "type": "user/message"
+      },
+      {
+        "position": 1,
+        "seq": 7,
+        "type": "assistant/message"
+      }
+    ]
+  },
+  "repeat": {
+    "first_replacement_seq": 9,
+    "first_surface": [
+      {
+        "position": 0,
+        "seq": 9,
+        "type": "user/message"
+      },
+      {
+        "position": 1,
+        "seq": 7,
+        "type": "assistant/message"
+      }
+    ],
+    "before_second": [
+      {
+        "position": 0,
+        "seq": 9,
+        "type": "user/message"
+      },
+      {
+        "position": 1,
+        "seq": 7,
+        "type": "assistant/message"
+      },
+      {
+        "position": 2,
+        "seq": 10,
+        "type": "user/message"
+      }
+    ],
+    "second_replacement_seq": 11,
+    "replaced_seqs": [
+      [
+        0,
+        2,
+        4
+      ],
+      [
+        9,
+        7
+      ]
+    ],
+    "after_second": [
+      {
+        "position": 0,
+        "seq": 11,
+        "type": "user/message"
+      },
+      {
+        "position": 1,
+        "seq": 10,
+        "type": "user/message"
+      }
+    ],
+    "messages": [
+      {
+        "role": "user",
+        "text": "The completed answer is 42.",
+        "summary": true
+      },
+      {
+        "role": "user",
+        "text": "Now explain why."
+      }
+    ],
+    "original_prefix_unchanged": true,
+    "replay_equal": true,
+    "log_count": 12
+  },
+  "semantic": {
+    "confirmed_value_in_log": 42,
+    "accepted_summary": "Confirmed: double 21 is 41.",
+    "request": [
+      {
+        "role": "user",
+        "text": "Confirmed: double 21 is 41.",
+        "summary": true
+      },
+      {
+        "role": "assistant",
+        "text": "42"
+      }
+    ],
+    "pending_after": []
+  }
+}

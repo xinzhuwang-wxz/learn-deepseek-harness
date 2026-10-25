@@ -1,0 +1,78 @@
+--- s04_guards/code.py
++++ s05_settlement/code.py
+@@ -1,4 +1,4 @@
+-"""Stage 4: original offline teaching snapshot; not the dsh runtime."""
++"""Stage 5: original offline teaching snapshot; not the dsh runtime."""
+ 
+ from __future__ import annotations
+ 
+@@ -124,8 +124,42 @@
+                 return "GUARD_DENIED"
+         return None
+ 
+-async def run_batch(calls, registry, scope, session, policy=None, token=None, limit=1):
+-    """Serial guarded execution; the next lesson adds scheduling."""
++def parallel_safe(tool, args):
++    try:
++        return tool is not None and tool.validate(args) is True and tool.parallel(args) is True
++    except Exception:
++        return False
++
++def recover_missing(session):
++    """Record conservative facts; never retry tools."""
++    pending = pending_calls(session.surface())
++    started = {e["data"]["call_id"] for e in session.events if e["type"] == "tool/call"}
++    result = {}
++    for call_id in sorted(pending):
++        code = "TOOL_OUTCOME_UNKNOWN" if call_id in started else "TOOL_NOT_STARTED"
++        session.append("tool/result", call_id=call_id, ok=False, code=code)
++        result[call_id] = code
++    return result
++
++def pending_calls(events):
++    pending = set()
++    seen = set()
++    for event in events:
++        if event["type"] == "assistant/message":
++            for call in event["data"].get("calls", []):
++                if call["id"] in seen:
++                    raise ValueError("duplicate tool call id")
++                seen.add(call["id"])
++                pending.add(call["id"])
++        elif event["type"] == "tool/result":
++            call_id = event["data"]["call_id"]
++            if call_id not in pending:
++                raise ValueError("orphan or duplicate result")
++            pending.remove(call_id)
++    return pending
++
++async def run_batch(calls, registry, scope, session, policy=None, token=None, limit=2):
++    """Bounded waves + exclusive barriers. Not upstream's rolling-pool scheduler."""
+     if type(limit) is not int or limit < 1:
+         raise ValueError("limit must be a positive integer")
+     calls = snapshot(calls)
+@@ -159,6 +193,11 @@
+     while cursor < len(calls):
+         group = [calls[cursor]]
+         first = registry.get(group[0]["name"], scope)
++        if parallel_safe(first, group[0]["args"]):
++            for call in calls[cursor + 1:cursor + limit]:
++                if not parallel_safe(registry.get(call["name"], scope), call["args"]):
++                    break
++                group.append(call)
+         # Preserve order; cooperative cancellation and caught errors leave each body awaited.
+         outcomes = await asyncio.gather(*(invoke(c, registry.get(c["name"], scope)) for c in group))
+         for call, outcome in zip(group, outcomes):
+@@ -190,9 +229,10 @@
+     registry.register(root, Tool('double', double, validate=lambda a: type(a.get('value')) is int,
+                                   parallel=lambda _: True))
+     calls = [{'id': 'c1', 'name': 'double', 'args': {'value': 21}}]
++    calls.append({'id': 'c2', 'name': 'double', 'args': {'value': 3}})
+     session.append('assistant/message', calls=calls)
+-    results = await run_batch(calls, registry, root, session, Policy(decide=lambda _: 'ask'))
+-    return {'approval_channel': 'absent', 'result': results[0]}
++    results = await run_batch(calls, registry, root, session, limit=2)
++    return {'model_order': [r['call_id'] for r in results], 'values': [r['value'] for r in results]}
+ 
+ 
+ if __name__ == '__main__':

@@ -1,0 +1,106 @@
+{
+  "feedback": {
+    "request_lengths": [
+      1,
+      3
+    ],
+    "second_request": [
+      {
+        "role": "user",
+        "content": "Double 21"
+      },
+      {
+        "role": "assistant",
+        "content": {
+          "calls": [
+            {
+              "id": "c1",
+              "name": "double",
+              "args": {
+                "value": 21
+              }
+            }
+          ]
+        }
+      },
+      {
+        "role": "tool",
+        "call_id": "c1",
+        "content": {
+          "ok": true,
+          "value": 42
+        }
+      }
+    ],
+    "history_roles": [
+      "user",
+      "assistant",
+      "tool",
+      "assistant"
+    ],
+    "scripted_final": "42"
+  },
+  "missing": {
+    "request_lengths": [
+      1,
+      3
+    ],
+    "second_request": [
+      {
+        "role": "user",
+        "content": "Double 21"
+      },
+      {
+        "role": "assistant",
+        "content": {
+          "calls": [
+            {
+              "id": "c1",
+              "name": "missing",
+              "args": {
+                "value": 21
+              }
+            }
+          ]
+        }
+      },
+      {
+        "role": "tool",
+        "call_id": "c1",
+        "content": {
+          "ok": false,
+          "error": "KeyError"
+        }
+      }
+    ],
+    "history_roles": [
+      "user",
+      "assistant",
+      "tool",
+      "assistant"
+    ],
+    "scripted_final": "42"
+  },
+  "blind": {
+    "request_lengths": [
+      1,
+      1
+    ],
+    "second_request_saw_tool": false,
+    "scripted_final": "42"
+  },
+  "stop": {
+    "requests": 1,
+    "history_roles": [
+      "user",
+      "assistant"
+    ],
+    "next_unconsumed_call": "c1"
+  },
+  "budget": {
+    "max_steps": 1,
+    "requests": 1,
+    "returned": false,
+    "error": "teaching step budget exhausted"
+  }
+}

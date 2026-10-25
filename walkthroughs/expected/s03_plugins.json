@@ -1,0 +1,74 @@
+{
+  "ownership": {
+    "before_close": {
+      "root": "root",
+      "child_a": "a",
+      "child_b": "root"
+    },
+    "after_child_a_close": {
+      "root": "root",
+      "child_a": "root",
+      "child_b": "root"
+    },
+    "child_a_closed": true,
+    "remaining_entries": 1
+  },
+  "stale": {
+    "before": "new",
+    "after_old_once": "new",
+    "after_old_twice": "new",
+    "remaining_before_new_dispose": 1,
+    "after_new_dispose": null,
+    "naive_name_delete_lost_new": true
+  },
+  "lifecycle": {
+    "cleanup_order": [
+      "subscription",
+      "connection"
+    ],
+    "disposers_after_close": 0,
+    "late_registration_error": "scope already disposed",
+    "entries_after_rejection": 0
+  },
+  "noncascade": {
+    "root_closed": true,
+    "child_closed": false,
+    "child_provider": "child",
+    "remaining_entries": 1
+  },
+  "execution": {
+    "second_request_last_message": {
+      "role": "tool",
+      "call_id": "c1",
+      "ok": true,
+      "value": {
+        "provider": "child",
+        "value": 63
+      }
+    },
+    "event_types": [
+      "user/message",
+      "step/start",
+      "assistant/message",
+      "tool/call",
+      "tool/result",
+      "step/end",
+      "step/start",
+      "assistant/message",
+      "step/end"
+    ],
+    "requests": 2
+  },
+  "unchecked": {
+    "validator_would_return": false,
+    "body_inputs": [
+      21
+    ],
+    "outcomes": [
+      {
+        "ok": true,
+        "value": 42
+      }
+    ]
+  }
+}

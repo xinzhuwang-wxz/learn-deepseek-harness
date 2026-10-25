@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 400" role="img" aria-labelledby="title desc">
+<title id="title">批次调度插在模型响应与结果历史之间</title><desc id="desc">模型声明a、b、write、c。run_batch从左到右组成连续波次，每波各自执行权限检查和工具体，等齐结果后按输入顺序提交，再进入下一波。read可以并发，write必须单独执行。</desc>
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8" fill="#4b627e"/></marker></defs>
+<rect width="1000" height="400" rx="18" fill="#f3f7ff"/>
+<g font-family="system-ui,sans-serif" fill="#172c49"><text x="28" y="38" font-size="22" font-weight="700">本课插入点：工具请求已经产生，结果尚未提交</text>
+<rect x="28" y="64" width="232" height="64" rx="9" fill="white" stroke="#b7cce5"/><text x="44" y="90" font-size="16">assistant/message</text><text x="44" y="114" font-size="16">calls = [a, b, write, c]</text>
+<path d="M262 96H296" stroke="#4b627e" marker-end="url(#arrow)"/>
+<rect x="302" y="64" width="368" height="64" rx="9" fill="#245ee8"/><text x="322" y="90" font-size="17" fill="white" font-weight="600">run_batch · 有界波次 + 结算</text><text x="322" y="114" font-size="15" fill="white">limit = 2；本课替换上一课的逐个执行</text>
+<path d="M672 96H708" stroke="#4b627e" marker-end="url(#arrow)"/>
+<rect x="714" y="64" width="258" height="64" rx="9" fill="white" stroke="#b7cce5"/><text x="732" y="90" font-size="16">tool/result → Session</text><text x="732" y="114" font-size="15">下一轮模型读取同一份历史</text>
+<rect x="28" y="164" width="944" height="146" rx="12" fill="white" stroke="#b7cce5"/>
+<text x="46" y="191" font-size="15" font-weight="600">run_batch 内部，每一波重复：</text>
+<g font-size="16"><rect x="46" y="207" width="244" height="77" rx="9" fill="#dbe8ff"/><text x="62" y="233">① 取连续的可并发前缀</text><text x="62" y="260" font-size="14">不越过独占调用；最多 limit 个</text>
+<path d="M292 245H323" stroke="#4b627e" marker-end="url(#arrow)"/>
+<rect x="330" y="207" width="276" height="77" rx="9" fill="#bce9df"/><text x="347" y="233">② 并发调用 invoke</text><text x="347" y="260" font-size="14">每个调用仍过权限 / 校验 / 工具体</text>
+<path d="M608 245H639" stroke="#4b627e" marker-end="url(#arrow)"/>
+<rect x="646" y="207" width="306" height="77" rx="9" fill="#ffe2ad"/><text x="663" y="233">③ 等齐后按 group 顺序写结果</text><text x="663" y="260" font-size="14">cursor 前进，之后才能开始下一波</text></g>
+<text x="46" y="346" font-size="17">本例波次： [a, b] → [write] → [c]</text><text x="46" y="375" font-size="14">并发资格不是授权。独占只约束这一次 run_batch，不是跨批次的全局互斥锁。</text></g></svg>

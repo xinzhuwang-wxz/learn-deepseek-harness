@@ -1,0 +1,10 @@
+{
+  "verified_date": "2026-10-25",
+  "target": {
+    "repository": "https://github.com/deepseek-ai/deepseek-harness",
+    "commit": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+    "license": "MIT",
+    "commit_date": "2026-10-23T19:48:59+08:00"
+  },
+  "reference_policy": "Selected target MIT source files retained read-only for offline verification. No upstream runtime imported or executed."
+}

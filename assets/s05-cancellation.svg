@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 510" role="img" aria-labelledby="title desc">
+<title id="title">协作取消以每个invoke的检查时刻为界</title><desc id="desc">进入工具体前发现取消时返回ABORTED_BEFORE_DISPATCH。已经开始的工具体继续到返回或抛出普通异常。返回值的JSON快照成功后再次检查取消，分别得到ABORTED或成功。普通异常得到TOOL_ERROR。批次不再次改写已经形成的结果。</desc>
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8" fill="#4b627e"/></marker></defs>
+<rect width="1000" height="510" rx="18" fill="#f3f7ff"/>
+<g font-family="system-ui,sans-serif" fill="#172c49"><text x="28" y="38" font-size="22" font-weight="700">取消不是回滚：先区分是否进入过工具体</text><text x="28" y="68" font-size="14">图中省略权限拒绝、参数错误等前置分支，只看 CancelToken 与工具体结果。</text>
+<rect x="28" y="96" width="230" height="54" rx="8" fill="white" stroke="#b7cce5"/><text x="44" y="129" font-size="16">进入工具体前发现取消？</text>
+<path d="M260 123H391" stroke="#4b627e" marker-end="url(#arrow)"/><text x="310" y="112" font-size="14">是</text>
+<rect x="397" y="96" width="380" height="54" rx="8" fill="#ffe1a6"/><text x="415" y="129" font-size="16">ABORTED_BEFORE_DISPATCH</text>
+<path d="M143 152V197" stroke="#4b627e" marker-end="url(#arrow)"/><text x="158" y="181" font-size="14">否</text>
+<rect x="28" y="204" width="230" height="60" rx="8" fill="#c4d9ff"/><text x="44" y="230" font-size="16">await tool.body(...)</text><text x="44" y="252" font-size="13">等待返回，并做JSON快照</text>
+<path d="M260 234H391" stroke="#4b627e" marker-end="url(#arrow)"/><text x="277" y="219" font-size="14">返回且快照成功</text>
+<rect x="397" y="204" width="240" height="60" rx="8" fill="white" stroke="#b7cce5"/><text x="416" y="240" font-size="16">此时 token.cancelled？</text>
+<path d="M639 224H777" stroke="#4b627e" marker-end="url(#arrow)"/><text x="696" y="212" font-size="14">是</text>
+<rect x="784" y="198" width="180" height="50" rx="8" fill="#ffe1a6"/><text x="806" y="229" font-size="16">ABORTED</text>
+<path d="M517 267V312H777" fill="none" stroke="#4b627e" marker-end="url(#arrow)"/><text x="535" y="292" font-size="14">否</text>
+<rect x="784" y="287" width="180" height="50" rx="8" fill="#b0e8da"/><text x="802" y="318" font-size="16">ok=True, value</text>
+<path d="M143 267V337" stroke="#4b627e" marker-end="url(#arrow)"/><text x="158" y="304" font-size="14">工具体 / 快照 Exception</text>
+<rect x="28" y="344" width="230" height="50" rx="8" fill="#f8cad0"/><text x="47" y="375" font-size="16">TOOL_ERROR</text>
+<rect x="28" y="423" width="936" height="60" rx="10" fill="white" stroke="#c2d4e9"/><text x="44" y="447" font-size="15">结果在各自 invoke 返回时形成；本教学版在整波提交时不会再统一改成 ABORTED。</text><text x="44" y="470" font-size="13">只涵盖协作 token 与普通 Exception；不涵盖 Task.cancel()、CancelledError、进程退出或副作用回滚。</text>
+</g></svg>

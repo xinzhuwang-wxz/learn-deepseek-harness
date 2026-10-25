@@ -1,0 +1,122 @@
+{
+  "delegation": {
+    "fork_boundary_seq": 4,
+    "inherited_count": 5,
+    "child_depth": 1,
+    "child_request": [
+      {
+        "role": "user",
+        "text": "Double 21"
+      },
+      {
+        "role": "assistant",
+        "calls": [
+          {
+            "id": "c1",
+            "name": "double",
+            "args": {
+              "value": 21
+            }
+          }
+        ]
+      },
+      {
+        "role": "tool",
+        "call_id": "c1",
+        "ok": true,
+        "value": 42
+      },
+      {
+        "role": "user",
+        "text": "Explain the verified result; use no tools; return one sentence."
+      }
+    ],
+    "parent_unchanged_before_return": true,
+    "parent_has_child_task": false,
+    "parent_before_count": 9,
+    "parent_after_count": 10,
+    "child_count": 9,
+    "parent_return_event": {
+      "seq": 9,
+      "type": "assistant/message",
+      "data": {
+        "text": "Doubling 21 gives the verified result 42.",
+        "source": "child-summary",
+        "child_depth": 1
+      }
+    }
+  },
+  "boundary": {
+    "visible_seqs": [
+      0,
+      2,
+      4,
+      7
+    ],
+    "cuts": [
+      {
+        "boundary_seq": 2,
+        "accepted": false,
+        "error": "lesson fork requires a balanced prefix"
+      },
+      {
+        "boundary_seq": 4,
+        "accepted": true,
+        "inherited_count": 5
+      }
+    ]
+  },
+  "depth": {
+    "cases": [
+      {
+        "saved": 2,
+        "runtime": 0,
+        "max": 2,
+        "accepted": false,
+        "error": "delegation depth exceeded"
+      },
+      {
+        "saved": 2,
+        "runtime": 0,
+        "max": 3,
+        "accepted": true,
+        "child_depth": 3
+      },
+      {
+        "saved": 2,
+        "runtime": 4,
+        "max": 5,
+        "accepted": true,
+        "child_depth": 5
+      }
+    ],
+    "without_depth_metadata": 1,
+    "event_log_contains_depth": false
+  },
+  "snapshot": {
+    "parent_first": "Double 21",
+    "child_first": "Double 21",
+    "parent_tail": "Parent-only follow-up",
+    "child_tail": "Child-only follow-up",
+    "parent_original_prefix_unchanged": true
+  },
+  "siblings": {
+    "sibling_depths": [
+      1,
+      1,
+      1
+    ],
+    "children_created": 3,
+    "grandchild_errors": [
+      "delegation depth exceeded",
+      "delegation depth exceeded",
+      "delegation depth exceeded"
+    ]
+  },
+  "alias": {
+    "same_object": true,
+    "parent_before_count": 9,
+    "parent_after_count": 10,
+    "parent_tail": "Child-only work leaked into parent"
+  }
+}

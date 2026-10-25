@@ -1,0 +1,57 @@
+--- s07_skills/code.py
++++ s08_subagents/code.py
+@@ -1,4 +1,4 @@
+-"""Stage 7: original offline teaching snapshot; not the dsh runtime."""
++"""Stage 8: original offline teaching snapshot; not the dsh runtime."""
+ 
+ from __future__ import annotations
+ 
+@@ -27,7 +27,10 @@
+ 
+ class Session:
+ 
+-    def __init__(self, events=None):
++    def __init__(self, events=None, depth=0):
++        if type(depth) is not int or depth < 0:
++            raise ValueError('depth must be a non-negative integer')
++        self.depth = depth
+         self._events = snapshot(events or [])
+         if any((event['seq'] != i for i, event in enumerate(self._events))):
+             raise ValueError('event sequence must be contiguous from zero')
+@@ -71,6 +74,20 @@
+         if not isinstance(summary, str) or not summary.strip():
+             raise ValueError('summary must be nonempty')
+         return self.append('surface/replace', seqs=[e['seq'] for e in selected], summary=summary)
++
++    def fork(self, boundary, runtime_depth=0, max_depth=2):
++        """Conservative lesson: only balanced prefixes; upstream can repair open tails."""
++        if type(boundary) is not int or not 0 <= boundary < len(self._events):
++            raise ValueError('unknown fork boundary')
++        if any((type(x) is not int or x < 0 for x in [runtime_depth, max_depth])):
++            raise ValueError('invalid delegation depth')
++        depth = max(self.depth, runtime_depth) + 1
++        if depth > max_depth:
++            raise ValueError('delegation depth exceeded')
++        prefix = self._events[:boundary + 1]
++        if pending_calls(Session(prefix).surface()):
++            raise ValueError('lesson fork requires a balanced prefix')
++        return Session(prefix, depth=depth)
+ 
+ def pending_calls(events):
+     pending = set()
+@@ -271,12 +288,9 @@
+                                   parallel=lambda _: True))
+     calls = [{'id': 'c1', 'name': 'double', 'args': {'value': 21}}]
+     await agent_loop([{'calls': calls}, {'text': '42'}], registry, root, session)
+-    catalog = SkillCatalog()
+-    catalog.register('explain', 'Explain a verified result', 'Show the input, operation, and confirmed output.')
+-    index = catalog.list()
+-    before = catalog.loads
+-    body = catalog.load('explain')
+-    return {'index': index, 'loads_before': before, 'loads_after': catalog.loads, 'body': body}
++    child = session.fork(len(session.events)-1)
++    child.append('user/message', text='Explain 42')
++    return {'parent_events': len(session.events), 'child_events': len(child.events), 'child_depth': child.depth}
+ 
+ 
+ if __name__ == '__main__':

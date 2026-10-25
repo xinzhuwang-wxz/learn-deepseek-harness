@@ -1,0 +1,116 @@
+{
+  "title": "Learn DeepSeek Harness",
+  "nav_title": "Learn Harness",
+  "tagline": "从可运行循环到有边界的智能体运行时",
+  "description": "用八个累计实验亲手搭建 Harness。每课先看失败，再增加一个机制，最后用测试和固定版本源码验证。离线、零凭据、可逐步追踪。",
+  "repo": "https://github.com/deepseek-ai/deepseek-harness",
+  "commit": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+  "chapters": [
+    {
+      "file": "docs/00-start.md",
+      "slug": "start",
+      "title": "开始搭建",
+      "summary": "三分钟启动与八个阶段地图",
+      "time": "10 分钟"
+    },
+    {
+      "file": "docs/02-loop.md",
+      "slug": "s01-loop",
+      "lesson": "s01_loop",
+      "title": "S01 工具结果回到模型",
+      "summary": "39 行代码搭出最小闭环",
+      "time": "15 分钟"
+    },
+    {
+      "file": "docs/03-events.md",
+      "slug": "s02-events",
+      "lesson": "s02_events",
+      "title": "S02 事实与视图分开",
+      "summary": "同一事件日志派生不同视图",
+      "time": "20 分钟"
+    },
+    {
+      "file": "docs/04-plugins.md",
+      "slug": "s03-plugins",
+      "lesson": "s03_plugins",
+      "title": "S03 每个注册都有主人",
+      "summary": "作用域、覆盖与正确的卸载",
+      "time": "25 分钟"
+    },
+    {
+      "file": "docs/05-guards.md",
+      "slug": "s04-guards",
+      "lesson": "s04_guards",
+      "title": "S04 执行前作出决策",
+      "summary": "无审批通道为什么必须拒绝",
+      "time": "25 分钟"
+    },
+    {
+      "file": "docs/06-settlement.md",
+      "slug": "s05-settlement",
+      "lesson": "s05_settlement",
+      "title": "S05 并发但有序结算",
+      "summary": "屏障、取消与结果未知",
+      "time": "30 分钟"
+    },
+    {
+      "file": "docs/07-compaction.md",
+      "slug": "s06-compaction",
+      "lesson": "s06_compaction",
+      "title": "S06 压缩而不切断协议",
+      "summary": "日志保留，可见面安全替换",
+      "time": "25 分钟"
+    },
+    {
+      "file": "docs/08-skills.md",
+      "slug": "s07-skills",
+      "lesson": "s07_skills",
+      "title": "S07 先发现再加载",
+      "summary": "技能目录不是正文，更不是权限",
+      "time": "20 分钟"
+    },
+    {
+      "file": "docs/09-subagents.md",
+      "slug": "s08-subagents",
+      "lesson": "s08_subagents",
+      "title": "S08 创建有边界的子会话",
+      "summary": "隔离状态并守住委派预算",
+      "time": "25 分钟"
+    },
+    {
+      "file": "docs/10-capstone.md",
+      "slug": "capstone",
+      "title": "综合实验与扩展作业",
+      "summary": "让机制组合后仍保持正确",
+      "time": "30 分钟"
+    },
+    {
+      "file": "docs/11-traces.md",
+      "slug": "traces",
+      "title": "轨迹实验室",
+      "summary": "逐事件观察事实与模型历史",
+      "time": "交互实验"
+    },
+    {
+      "file": "docs/13-codebook.md",
+      "slug": "codebook",
+      "title": "完整可运行代码册",
+      "summary": "最小循环与最终累计系统全文",
+      "time": "代码附录"
+    },
+    {
+      "file": "docs/01-method.md",
+      "slug": "method",
+      "title": "从源码提炼课程的方法",
+      "summary": "从失败实验提炼不变量，再回到源码验证",
+      "time": "方法附录"
+    },
+    {
+      "file": "docs/12-sources.md",
+      "slug": "sources",
+      "title": "来源许可与重现构建",
+      "summary": "23 个源码锚点与清晰验证边界",
+      "time": "参考附录"
+    }
+  ]
+}

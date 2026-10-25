@@ -1,0 +1,119 @@
+{
+  "projection": {
+    "log": [
+      {
+        "seq": 0,
+        "type": "user/message"
+      },
+      {
+        "seq": 1,
+        "type": "step/start"
+      },
+      {
+        "seq": 2,
+        "type": "assistant/message"
+      },
+      {
+        "seq": 3,
+        "type": "tool/call"
+      },
+      {
+        "seq": 4,
+        "type": "tool/result"
+      },
+      {
+        "seq": 5,
+        "type": "step/end"
+      },
+      {
+        "seq": 6,
+        "type": "step/start"
+      },
+      {
+        "seq": 7,
+        "type": "assistant/message"
+      },
+      {
+        "seq": 8,
+        "type": "step/end"
+      }
+    ],
+    "surface_seq": [
+      0,
+      2,
+      4,
+      7
+    ],
+    "model_messages": [
+      {
+        "role": "user",
+        "text": "Double 21"
+      },
+      {
+        "role": "assistant",
+        "calls": [
+          {
+            "id": "c1",
+            "name": "double",
+            "args": {
+              "value": 21
+            }
+          }
+        ]
+      },
+      {
+        "role": "tool",
+        "call_id": "c1",
+        "ok": true,
+        "value": 42
+      },
+      {
+        "role": "assistant",
+        "text": "42"
+      }
+    ],
+    "audit_seq": [
+      3,
+      4
+    ]
+  },
+  "snapshot": {
+    "assigned_seq": 0,
+    "unsafe_alias_items": [
+      1,
+      2
+    ],
+    "after_input_edit": [
+      1
+    ],
+    "edited_read_items": [
+      1,
+      3
+    ],
+    "edited_message_items": [
+      1,
+      4
+    ],
+    "stored_items": [
+      1
+    ],
+    "stored_event_count": 1
+  },
+  "replay": {
+    "same_messages_before_append": true,
+    "original_events": 9,
+    "replay_events": 10,
+    "replay_first_text": "Double 21",
+    "replay_last_seq": 9
+  },
+  "corrupt": {
+    "changed_position": 4,
+    "changed_seq": 99,
+    "error": "ValueError",
+    "message": "event sequence must be contiguous from zero"
+  },
+  "json": {
+    "nan": "ValueError",
+    "set": "TypeError"
+  }
+}

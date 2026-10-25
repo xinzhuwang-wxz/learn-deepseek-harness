@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 420" role="img" aria-labelledby="title desc">
+<title id="title">决策管线接在工具查找与工具体之间</title><desc id="desc">模型先声明c1 double 21。注册表找到工具后，invoke先写tool/call，再按策略审批、守卫、参数校验检查。全部通过才运行工具体。拒绝和成功结果都按c1写回Session。拒绝不能先执行再补报。</desc>
+<defs><marker id="arr" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8" fill="#51657d"/></marker></defs>
+<rect width="1000" height="420" rx="16" fill="#f3f7ff"/>
+<g font-family="system-ui,sans-serif" fill="#172c49"><text x="28" y="38" font-size="22" font-weight="700">同一条 c1：决策必须在工具体之前</text>
+<rect x="28" y="64" width="250" height="66" rx="9" fill="white" stroke="#b9cce4"/><text x="45" y="91" font-size="17">模型声明：double(value=21)</text><text x="45" y="115" font-size="15">assistant/message · call_id=c1</text>
+<path d="M280 98H318" stroke="#51657d" marker-end="url(#arr)"/>
+<rect x="324" y="64" width="286" height="66" rx="9" fill="white" stroke="#b9cce4"/><text x="342" y="91" font-size="17">Registry.get(name, scope)</text><text x="342" y="115" font-size="15">上一课：找得到，不等于允许执行</text>
+<path d="M612 98H650" stroke="#51657d" marker-end="url(#arr)"/>
+<rect x="656" y="64" width="316" height="66" rx="9" fill="#245ee8"/><text x="674" y="91" font-size="17" fill="white">invoke：先记录 tool/call</text><text x="674" y="115" font-size="15" fill="white">只表示尝试，不证明工具体已进入</text>
+<path d="M814 132V160H150V187" stroke="#51657d" fill="none" marker-end="url(#arr)"/>
+<rect x="28" y="192" width="248" height="76" rx="9" fill="white" stroke="#b9cce4"/><text x="45" y="222" font-size="17">Policy.check</text><text x="45" y="247" font-size="15">策略 / 明确审批 / 单调守卫</text>
+<path d="M278 230H320" stroke="#51657d" marker-end="url(#arr)"/>
+<rect x="326" y="192" width="280" height="76" rx="9" fill="white" stroke="#b9cce4"/><text x="344" y="222" font-size="17">工具存在 + validate(args)</text><text x="344" y="247" font-size="15">批准不会跳过参数协议</text>
+<path d="M608 230H650" stroke="#51657d" marker-end="url(#arr)"/>
+<rect x="656" y="192" width="316" height="76" rx="9" fill="#e3f5ee" stroke="#7db99c"/><text x="674" y="222" font-size="17">再次检查取消 → await body</text><text x="674" y="247" font-size="15">到这里才允许 body_calls 增加</text>
+<path d="M150 270V306H814V270M466 270V306" stroke="#51657d" fill="none"/>
+<path d="M500 306V330" stroke="#51657d" marker-end="url(#arr)"/>
+<rect x="265" y="336" width="470" height="55" rx="9" fill="white" stroke="#b9cce4"/><text x="285" y="359" font-size="16">tool/result(call_id=c1, 成功或明确错误)</text><text x="285" y="382" font-size="14">由批次提交回 Session，下一轮模型能解释为什么停下</text>
+<text x="30" y="300" font-size="13" fill="#995139">提前拒绝</text><text x="816" y="300" font-size="13" fill="#32694d">实际执行后返回</text>
+</g></svg>

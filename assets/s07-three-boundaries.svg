@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="535" viewBox="0 0 1100 535" role="img" aria-labelledby="title desc">
+<title id="title">目录、正文、模型输入：三个不同的边界</title><desc id="desc">load 返回字符串，只有宿主明确追加到可见历史，下一次请求才能看到它。</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10Z" fill="#475569"/></marker></defs>
+
+<rect width="100%" height="100%" rx="20" fill="#f8fafc"/>
+<text class="title" font-family="sans-serif" font-size="28" font-weight="700" fill="#172554" x="36" y="48">目录、正文、模型输入：三个不同的边界</text><text class="sub" font-family="sans-serif" font-size="18" fill="#475569" x="36" y="79">load 返回字符串，只有宿主明确追加到可见历史，下一次请求才能看到它。</text>
+<rect x="40" y="135" width="315" height="195" rx="12" fill="#e0f2fe" stroke="#94a3b8" stroke-width="2"/>
+<text class="label" font-family="sans-serif" font-size="21" font-weight="600" fill="#172554" x="58" y="170">① 发现目录</text>
+<text class="small" font-family="sans-serif" font-size="18" fill="#172554" x="58" y="210">list() → name + description</text>
+<text class="small" font-family="sans-serif" font-size="18" fill="#172554" x="58" y="248">loads = 0</text>
+<text class="small" font-family="sans-serif" font-size="18" fill="#172554" x="58" y="286">正文标记未进入请求</text>
+<path class="arrow" fill="none" stroke="#475569" stroke-width="2.5" d="M355 230 L383 230"/><polygon points="383,230 375,234 375,226" fill="#475569"/>
+<rect x="390" y="135" width="315" height="195" rx="12" fill="#fef3c7" stroke="#94a3b8" stroke-width="2"/>
+<text class="label" font-family="sans-serif" font-size="21" font-weight="600" fill="#172554" x="408" y="170">② 获取正文</text>
+<text class="small" font-family="sans-serif" font-size="18" fill="#172554" x="408" y="210">load(&quot;explain&quot;) → body</text>
+<text class="small" font-family="sans-serif" font-size="18" fill="#172554" x="408" y="248">loads = 1</text>
+<text class="small" font-family="sans-serif" font-size="18" fill="#172554" x="408" y="286">仍未进入模型历史</text>
+<path class="arrow" fill="none" stroke="#475569" stroke-width="2.5" d="M705 230 L733 230"/><polygon points="733,230 725,234 725,226" fill="#475569"/>
+<rect x="740" y="135" width="315" height="195" rx="12" fill="#dcfce7" stroke="#94a3b8" stroke-width="2"/>
+<text class="label" font-family="sans-serif" font-size="21" font-weight="600" fill="#172554" x="758" y="170">③ 显式注入</text>
+<text class="small" font-family="sans-serif" font-size="18" fill="#172554" x="758" y="210">append(&quot;user/message&quot;, …)</text>
+<text class="small" font-family="sans-serif" font-size="18" fill="#172554" x="758" y="248">下次 agent_loop → messages()</text>
+<text class="small" font-family="sans-serif" font-size="18" fill="#172554" x="758" y="286">实际请求才包含标记</text>
+<rect x="40" y="365" width="1015" height="85" rx="12" fill="#ede9fe" stroke="#c4b5fd" stroke-width="2"/>
+<text class="label" font-family="sans-serif" font-size="21" font-weight="600" fill="#172554" x="58" y="398">SkillCatalog.skills 的内存字典从 register 时就已保存正文。</text>
+<text class="small" font-family="sans-serif" font-size="18" fill="#172554" x="58" y="432">延迟的是“取出并提供给模型”，本课没有延迟磁盘读取，也没有自动技能选择。</text>
+<text class="mono" font-family="monospace" font-size="18" fill="#172554" x="40" y="495">同一个 MARKER_EXPLAIN 在三次真实请求中的观测： false → false → true</text>
+</svg>

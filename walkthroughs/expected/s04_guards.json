@@ -1,0 +1,255 @@
+{
+  "unguarded": {
+    "input": {
+      "id": "c1",
+      "name": "double",
+      "args": {
+        "value": 21
+      }
+    },
+    "trace": [
+      "body"
+    ],
+    "body_calls": 1,
+    "result": {
+      "ok": true,
+      "value": 42
+    },
+    "event_types": [
+      "assistant/message"
+    ]
+  },
+  "missing": {
+    "input": {
+      "id": "c1",
+      "name": "double",
+      "args": {
+        "value": 21
+      }
+    },
+    "trace": [
+      "decide"
+    ],
+    "body_calls": 0,
+    "result": {
+      "call_id": "c1",
+      "ok": false,
+      "code": "DENIED"
+    },
+    "event_types": [
+      "assistant/message",
+      "tool/call",
+      "tool/result"
+    ]
+  },
+  "truthy": {
+    "input": {
+      "id": "c1",
+      "name": "double",
+      "args": {
+        "value": 21
+      }
+    },
+    "trace": [
+      "decide",
+      "approve"
+    ],
+    "body_calls": 0,
+    "result": {
+      "call_id": "c1",
+      "ok": false,
+      "code": "DENIED"
+    },
+    "event_types": [
+      "assistant/message",
+      "tool/call",
+      "tool/result"
+    ]
+  },
+  "deny": {
+    "input": {
+      "id": "c1",
+      "name": "double",
+      "args": {
+        "value": 21
+      }
+    },
+    "trace": [
+      "decide"
+    ],
+    "body_calls": 0,
+    "result": {
+      "call_id": "c1",
+      "ok": false,
+      "code": "DENIED"
+    },
+    "event_types": [
+      "assistant/message",
+      "tool/call",
+      "tool/result"
+    ]
+  },
+  "guard": {
+    "input": {
+      "id": "c1",
+      "name": "double",
+      "args": {
+        "value": 21
+      }
+    },
+    "trace": [
+      "decide",
+      "approve",
+      "guard"
+    ],
+    "body_calls": 0,
+    "result": {
+      "call_id": "c1",
+      "ok": false,
+      "code": "GUARD_DENIED"
+    },
+    "event_types": [
+      "assistant/message",
+      "tool/call",
+      "tool/result"
+    ]
+  },
+  "false-guard": {
+    "input": {
+      "id": "c1",
+      "name": "double",
+      "args": {
+        "value": 21
+      }
+    },
+    "trace": [
+      "decide",
+      "approve",
+      "guard"
+    ],
+    "body_calls": 0,
+    "result": {
+      "call_id": "c1",
+      "ok": false,
+      "code": "GUARD_DENIED"
+    },
+    "event_types": [
+      "assistant/message",
+      "tool/call",
+      "tool/result"
+    ]
+  },
+  "policy-error": {
+    "input": {
+      "id": "c1",
+      "name": "double",
+      "args": {
+        "value": 21
+      }
+    },
+    "trace": [
+      "decide"
+    ],
+    "body_calls": 0,
+    "result": {
+      "call_id": "c1",
+      "ok": false,
+      "code": "POLICY_ERROR"
+    },
+    "event_types": [
+      "assistant/message",
+      "tool/call",
+      "tool/result"
+    ]
+  },
+  "allowed": {
+    "input": {
+      "id": "c1",
+      "name": "double",
+      "args": {
+        "value": 21
+      }
+    },
+    "trace": [
+      "decide",
+      "approve",
+      "guard",
+      "validate",
+      "body"
+    ],
+    "body_calls": 1,
+    "result": {
+      "call_id": "c1",
+      "ok": true,
+      "value": 42
+    },
+    "event_types": [
+      "assistant/message",
+      "tool/call",
+      "tool/result"
+    ]
+  },
+  "invalid": {
+    "input": {
+      "id": "c1",
+      "name": "double",
+      "args": {
+        "value": "21"
+      }
+    },
+    "trace": [
+      "decide",
+      "approve",
+      "guard",
+      "validate"
+    ],
+    "body_calls": 0,
+    "result": {
+      "call_id": "c1",
+      "ok": false,
+      "code": "INVALID_ARGUMENTS"
+    },
+    "event_types": [
+      "assistant/message",
+      "tool/call",
+      "tool/result"
+    ]
+  },
+  "range": {
+    "input": {
+      "id": "c1",
+      "name": "double",
+      "args": {
+        "value": 101
+      }
+    },
+    "trace": [
+      "decide",
+      "approve",
+      "guard",
+      "validate"
+    ],
+    "body_calls": 0,
+    "result": {
+      "call_id": "c1",
+      "ok": false,
+      "code": "INVALID_ARGUMENTS"
+    },
+    "event_types": [
+      "assistant/message",
+      "tool/call",
+      "tool/result"
+    ]
+  },
+  "mutating-validator": {
+    "caller_value": 21,
+    "body_values": [
+      999
+    ],
+    "result": {
+      "call_id": "c1",
+      "ok": true,
+      "value": 1998
+    }
+  }
+}

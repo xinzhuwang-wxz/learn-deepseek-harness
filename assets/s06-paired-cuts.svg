@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="470" viewBox="0 0 1100 470" role="img" aria-labelledby="title desc">
+<title id="title">切的是可见历史，守的是调用/结果关系</title><desc id="desc">图中只有四条可见消息；step 与 tool/call 等事件仍在原始日志里。</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10Z" fill="#475569"/></marker></defs>
+
+<rect width="100%" height="100%" rx="20" fill="#f8fafc"/>
+<text class="title" font-family="sans-serif" font-size="28" font-weight="700" fill="#172554" x="36" y="48">切的是可见历史，守的是调用/结果关系</text><text class="sub" font-family="sans-serif" font-size="18" fill="#475569" x="36" y="79">图中只有四条可见消息；step 与 tool/call 等事件仍在原始日志里。</text>
+<rect x="50" y="135" width="230" height="90" rx="12" fill="#e0f2fe" stroke="#7dd3fc" stroke-width="2"/>
+<text class="mono" font-family="monospace" font-size="18" fill="#172554" x="65" y="165">position 0 / seq 0</text>
+<text class="small" font-family="sans-serif" font-size="18" fill="#172554" x="65" y="202">用户：Double 21</text>
+<path class="arrow" fill="none" stroke="#475569" stroke-width="2.5" d="M280 180 L300 180"/><polygon points="300,180 292,184 292,176" fill="#475569"/>
+<rect x="305" y="135" width="230" height="90" rx="12" fill="#e0f2fe" stroke="#7dd3fc" stroke-width="2"/>
+<text class="mono" font-family="monospace" font-size="18" fill="#172554" x="320" y="165">position 1 / seq 2</text>
+<text class="small" font-family="sans-serif" font-size="18" fill="#172554" x="320" y="202">助手：调用 c1</text>
+<path class="arrow" fill="none" stroke="#475569" stroke-width="2.5" d="M535 180 L555 180"/><polygon points="555,180 547,184 547,176" fill="#475569"/>
+<rect x="560" y="135" width="230" height="90" rx="12" fill="#e0f2fe" stroke="#7dd3fc" stroke-width="2"/>
+<text class="mono" font-family="monospace" font-size="18" fill="#172554" x="575" y="165">position 2 / seq 4</text>
+<text class="small" font-family="sans-serif" font-size="18" fill="#172554" x="575" y="202">工具：c1 → 42</text>
+<path class="arrow" fill="none" stroke="#475569" stroke-width="2.5" d="M790 180 L810 180"/><polygon points="810,180 802,184 802,176" fill="#475569"/>
+<rect x="815" y="135" width="230" height="90" rx="12" fill="#e0f2fe" stroke="#7dd3fc" stroke-width="2"/>
+<text class="mono" font-family="monospace" font-size="18" fill="#172554" x="830" y="165">position 3 / seq 7</text>
+<text class="small" font-family="sans-serif" font-size="18" fill="#172554" x="830" y="202">助手：42</text>
+<path d="M420 235 C420 280 675 280 675 235" fill="none" stroke="#0284c7" stroke-width="3"/>
+<text class="small" font-family="sans-serif" font-size="18" fill="#172554" x="427" y="287">同一个 call_id=c1，必须完整保留或一起替换</text>
+<path d="M547 118 V225 M547 305 V350" stroke="#dc2626" stroke-dasharray="7 6" stroke-width="3"/>
+<rect x="50" y="325" width="430" height="105" rx="12" fill="#fee2e2" stroke="#fca5a5" stroke-width="2"/>
+<text class="label" font-family="sans-serif" font-size="21" font-weight="600" fill="#172554" x="68" y="358">count=2：切在调用和结果之间</text>
+<text class="mono" font-family="monospace" font-size="18" fill="#172554" x="68" y="389">selected seqs=[0,2]；pending={c1}</text>
+<text class="small" font-family="sans-serif" font-size="18" fill="#172554" x="68" y="416">拒绝：日志仍为 9 条事件</text>
+<path d="M802 118 V320" stroke="#059669" stroke-dasharray="7 6" stroke-width="3"/>
+<rect x="585" y="325" width="460" height="105" rx="12" fill="#dcfce7" stroke="#86efac" stroke-width="2"/>
+<text class="label" font-family="sans-serif" font-size="21" font-weight="600" fill="#172554" x="603" y="358">count=3：调用和结果已闭合</text>
+<text class="mono" font-family="monospace" font-size="18" fill="#172554" x="603" y="389">selected seqs=[0,2,4]；pending={}</text>
+<text class="small" font-family="sans-serif" font-size="18" fill="#172554" x="603" y="416">接受：追加替换事件 seq9，不删除原事件</text>
+</svg>

@@ -1,0 +1,42 @@
+[
+  {
+    "id": "s01_loop",
+    "stage": 1,
+    "lines": 39
+  },
+  {
+    "id": "s02_events",
+    "stage": 2,
+    "lines": 78
+  },
+  {
+    "id": "s03_plugins",
+    "stage": 3,
+    "lines": 154
+  },
+  {
+    "id": "s04_guards",
+    "stage": 4,
+    "lines": 199
+  },
+  {
+    "id": "s05_settlement",
+    "stage": 5,
+    "lines": 239
+  },
+  {
+    "id": "s06_compaction",
+    "stage": 6,
+    "lines": 264
+  },
+  {
+    "id": "s07_skills",
+    "stage": 7,
+    "lines": 283
+  },
+  {
+    "id": "s08_subagents",
+    "stage": 8,
+    "lines": 297
+  }
+]

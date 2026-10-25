@@ -1,0 +1,101 @@
+--- s03_plugins/code.py
++++ s04_guards/code.py
+@@ -1,4 +1,4 @@
+-"""Stage 3: original offline teaching snapshot; not the dsh runtime."""
++"""Stage 4: original offline teaching snapshot; not the dsh runtime."""
+ 
+ from __future__ import annotations
+ 
+@@ -105,21 +105,67 @@
+ class CancelToken:
+     cancelled: bool = False
+ 
++@dataclass
++class Policy:
++    decide: Callable[[dict], str] = lambda _: "allow"
++    approve: Callable[[dict], bool] | None = None
++    guards: tuple[Callable[[dict], str | None], ...] = ()
++
++    def check(self, call):
++        decision = self.decide(snapshot(call))
++        if decision == "ask":
++            decision = "allow" if self.approve and self.approve(snapshot(call)) is True else "deny"
++        if decision != "allow":
++            return "DENIED"
++        # Guards are monotonic: none can turn a prior denial into an allowance.
++        for guard in self.guards:
++            reason = guard(snapshot(call))
++            if reason is not None:
++                return "GUARD_DENIED"
++        return None
++
+ async def run_batch(calls, registry, scope, session, policy=None, token=None, limit=1):
+-    results = []
+-    for call in calls:
+-        tool = registry.get(call['name'], scope)
+-        session.append('tool/call', call_id=call['id'], name=call['name'])
++    """Serial guarded execution; the next lesson adds scheduling."""
++    if type(limit) is not int or limit < 1:
++        raise ValueError("limit must be a positive integer")
++    calls = snapshot(calls)
++    if len({c["id"] for c in calls}) != len(calls):
++        raise ValueError("duplicate call ids")
++    policy, token = policy or Policy(), token or CancelToken()
++    results, cursor = [], 0
++
++    async def invoke(call, tool):
++        session.append("tool/call", call_id=call["id"], name=call["name"])
++        if token.cancelled:
++            return {"ok": False, "code": "ABORTED_BEFORE_DISPATCH"}
+         try:
+-            if tool is None: raise ValueError('unknown tool')
+-            value = await tool.body(call['args'], CancelToken())
+-            outcome = {'ok': True, 'value': value}
++            denied = policy.check(call)
++            if denied:
++                return {"ok": False, "code": denied}
++            if tool is None:
++                return {"ok": False, "code": "UNKNOWN_TOOL"}
++            if tool.validate(call["args"]) is not True:
++                return {"ok": False, "code": "INVALID_ARGUMENTS"}
++        except Exception:
++            return {"ok": False, "code": "POLICY_ERROR"}
++        if token.cancelled:
++            return {"ok": False, "code": "ABORTED_BEFORE_DISPATCH"}
++        try:
++            value = snapshot(await tool.body(snapshot(call["args"]), token))
++            return {"ok": False, "code": "ABORTED"} if token.cancelled else {"ok": True, "value": value}
+         except Exception as exc:
+-            outcome = {'ok': False, 'error': type(exc).__name__}
+-        session.append('tool/result', call_id=call['id'], **outcome)
+-        results.append(outcome)
++            return {"ok": False, "code": "TOOL_ERROR", "error": type(exc).__name__}
++
++    while cursor < len(calls):
++        group = [calls[cursor]]
++        first = registry.get(group[0]["name"], scope)
++        # Preserve order; cooperative cancellation and caught errors leave each body awaited.
++        outcomes = await asyncio.gather(*(invoke(c, registry.get(c["name"], scope)) for c in group))
++        for call, outcome in zip(group, outcomes):
++            session.append("tool/result", call_id=call["id"], **outcome)
++            results.append({"call_id": call["id"], **outcome})
++        cursor += len(group)
+     return results
+-
+ 
+ async def agent_loop(script, registry, scope, session, max_steps=4, policy=None):
+     """The fake provider receives the derived history on every actual request."""
+@@ -144,10 +190,9 @@
+     registry.register(root, Tool('double', double, validate=lambda a: type(a.get('value')) is int,
+                                   parallel=lambda _: True))
+     calls = [{'id': 'c1', 'name': 'double', 'args': {'value': 21}}]
+-    await agent_loop([{'calls': calls}, {'text': '42'}], registry, root, session)
+-    visible_before = registry.get('double', root) is not None
+-    root.close()
+-    return {'visible_before': visible_before, 'removed_after_dispose': registry.get('double', root) is None}
++    session.append('assistant/message', calls=calls)
++    results = await run_batch(calls, registry, root, session, Policy(decide=lambda _: 'ask'))
++    return {'approval_channel': 'absent', 'result': results[0]}
+ 
+ 
+ if __name__ == '__main__':

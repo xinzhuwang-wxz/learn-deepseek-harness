@@ -1,0 +1,152 @@
+{
+  "order": {
+    "completion": [
+      "b",
+      "a",
+      "write",
+      "c"
+    ],
+    "naive_history": [
+      "b",
+      "a",
+      "write",
+      "c"
+    ],
+    "settled_history": [
+      "a",
+      "b",
+      "write",
+      "c"
+    ],
+    "values": [
+      0,
+      0,
+      1,
+      1
+    ],
+    "peak": 2,
+    "overlaps": [],
+    "events": [
+      "start:a",
+      "start:b",
+      "end:b",
+      "end:a",
+      "start:write",
+      "end:write",
+      "start:c",
+      "end:c"
+    ]
+  },
+  "serial": {
+    "completion": [
+      "a",
+      "b",
+      "write",
+      "c"
+    ],
+    "naive_history": [
+      "a",
+      "b",
+      "write",
+      "c"
+    ],
+    "settled_history": [
+      "a",
+      "b",
+      "write",
+      "c"
+    ],
+    "values": [
+      0,
+      0,
+      1,
+      1
+    ],
+    "peak": 1,
+    "overlaps": [],
+    "events": [
+      "start:a",
+      "end:a",
+      "start:b",
+      "end:b",
+      "start:write",
+      "end:write",
+      "start:c",
+      "end:c"
+    ]
+  },
+  "unsafe_barrier": {
+    "completion": [
+      "a",
+      "b",
+      "write",
+      "c"
+    ],
+    "naive_history": [
+      "a",
+      "b",
+      "write",
+      "c"
+    ],
+    "settled_history": [
+      "a",
+      "b",
+      "write",
+      "c"
+    ],
+    "values": [
+      0,
+      0,
+      1,
+      0
+    ],
+    "peak": 2,
+    "overlaps": [
+      [
+        "c",
+        "write"
+      ]
+    ],
+    "events": [
+      "start:a",
+      "start:b",
+      "end:a",
+      "end:b",
+      "start:write",
+      "start:c",
+      "end:write",
+      "end:c"
+    ]
+  },
+  "cancel": {
+    "cleanup": [
+      "body finished"
+    ],
+    "codes": [
+      "ABORTED",
+      "ABORTED_BEFORE_DISPATCH"
+    ]
+  },
+  "pre_cancelled": {
+    "cleanup": [],
+    "codes": [
+      "ABORTED_BEFORE_DISPATCH",
+      "ABORTED_BEFORE_DISPATCH"
+    ]
+  },
+  "recovery": {
+    "model_order": [
+      "z-unseen",
+      "a-attempt"
+    ],
+    "recovery_order": [
+      "a-attempt",
+      "z-unseen"
+    ],
+    "codes": {
+      "a-attempt": "TOOL_OUTCOME_UNKNOWN",
+      "z-unseen": "TOOL_NOT_STARTED"
+    },
+    "pending_after": []
+  }
+}

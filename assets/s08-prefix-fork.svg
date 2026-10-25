@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="610" viewBox="0 0 1100 610" role="img" aria-labelledby="title desc">
+<title id="title">继承相同事实，不共享可变尾部</title><desc id="desc">图中 seq5–8 在两条会话中含义不同；fork 不是让子级接管父列表。</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10Z" fill="#475569"/></marker></defs>
+
+<rect width="100%" height="100%" rx="20" fill="#f8fafc"/>
+<text class="title" font-family="sans-serif" font-size="28" font-weight="700" fill="#172554" x="36" y="48">继承相同事实，不共享可变尾部</text><text class="sub" font-family="sans-serif" font-size="18" fill="#475569" x="36" y="79">图中 seq5–8 在两条会话中含义不同；fork 不是让子级接管父列表。</text>
+<text class="label" font-family="sans-serif" font-size="21" font-weight="600" fill="#172554" x="40" y="125">父日志原有 9 条；选 boundary=4，包含 seq4 自身</text>
+<rect x="40" y="150" width="1015" height="75" rx="12" fill="#e0f2fe" stroke="#7dd3fc" stroke-width="2"/>
+<text class="mono" font-family="monospace" font-size="18" fill="#172554" x="58" y="182">共同内容前缀： seq0 user → seq1 start → seq2 call c1 → seq3 attempt → seq4 result 42</text>
+<text class="small" font-family="sans-serif" font-size="18" fill="#172554" x="58" y="211">创建新 Session 时做 JSON 快照；之后两个对象分别拥有自己的事件列表。</text>
+<path class="arrow" fill="none" stroke="#475569" stroke-width="2.5" d="M340 225 V260 H280 V288"/><polygon points="280,288 276,280 284,280" fill="#475569"/><path class="arrow" fill="none" stroke="#475569" stroke-width="2.5" d="M720 225 V260 H800 V288"/><polygon points="800,288 796,280 804,280" fill="#475569"/>
+<rect x="40" y="295" width="475" height="150" rx="12" fill="#e2e8f0" stroke="#cbd5e1" stroke-width="2"/>
+<text class="label" font-family="sans-serif" font-size="21" font-weight="600" fill="#172554" x="58" y="330">父会话：保留自己的旧尾部</text>
+<text class="small" font-family="sans-serif" font-size="18" fill="#172554" x="58" y="367">seq5 end → seq6 start → seq7 final → seq8 end</text>
+<text class="small" font-family="sans-serif" font-size="18" fill="#172554" x="58" y="407">子任务执行期间：父日志仍为 9 条</text>
+<rect x="565" y="295" width="490" height="150" rx="12" fill="#dcfce7" stroke="#86efac" stroke-width="2"/>
+<text class="label" font-family="sans-serif" font-size="21" font-weight="600" fill="#172554" x="583" y="330">子会话：从 seq5 开始新的尾部</text>
+<text class="small" font-family="sans-serif" font-size="18" fill="#172554" x="583" y="367">seq5 任务 → seq6 start → seq7 结论 → seq8 end</text>
+<text class="small" font-family="sans-serif" font-size="18" fill="#172554" x="583" y="407">depth=1；未继承父级原来的 seq7 最终回答</text>
+<path class="arrow" fill="none" stroke="#475569" stroke-width="2.5" d="M800 445 V485 H280 V510"/><polygon points="280,510 276,502 284,502" fill="#475569"/>
+<rect x="40" y="515" width="1015" height="60" rx="12" fill="#ede9fe" stroke="#c4b5fd" stroke-width="2"/>
+<text class="small" font-family="sans-serif" font-size="18" fill="#172554" x="58" y="552">只有父级显式 append 返回摘要，才产生父 seq9；相同 seq 数值不是跨会话全局 ID。</text>
+</svg>

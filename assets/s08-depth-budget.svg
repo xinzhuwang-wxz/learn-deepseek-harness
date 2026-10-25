@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="485" viewBox="0 0 1100 485" role="img" aria-labelledby="title desc">
+<title id="title">不能用新的 runtime=0 洗掉旧深度</title><desc id="desc">本课在内存中重建 Session；没有磁盘读写或自动持久化服务。</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10Z" fill="#475569"/></marker></defs>
+
+<rect width="100%" height="100%" rx="20" fill="#f8fafc"/>
+<text class="title" font-family="sans-serif" font-size="28" font-weight="700" fill="#172554" x="36" y="48">不能用新的 runtime=0 洗掉旧深度</text><text class="sub" font-family="sans-serif" font-size="18" fill="#475569" x="36" y="79">本课在内存中重建 Session；没有磁盘读写或自动持久化服务。</text>
+<rect x="40" y="135" width="315" height="95" rx="12" fill="#e0f2fe" stroke="#7dd3fc" stroke-width="2"/>
+<text class="label" font-family="sans-serif" font-size="21" font-weight="600" fill="#172554" x="58" y="170">已保存的对象元数据</text>
+<text class="mono" font-family="monospace" font-size="18" fill="#172554" x="58" y="207">session.depth = 2</text>
+<rect x="40" y="260" width="315" height="95" rx="12" fill="#fef3c7" stroke="#fcd34d" stroke-width="2"/>
+<text class="label" font-family="sans-serif" font-size="21" font-weight="600" fill="#172554" x="58" y="295">新运行时传入值</text>
+<text class="mono" font-family="monospace" font-size="18" fill="#172554" x="58" y="332">runtime_depth = 0</text>
+<path class="arrow" fill="none" stroke="#475569" stroke-width="2.5" d="M355 180 H420 V245 H455"/><polygon points="455,245 447,249 447,241" fill="#475569"/><path class="arrow" fill="none" stroke="#475569" stroke-width="2.5" d="M355 305 H420 V245 H455"/><polygon points="455,245 447,249 447,241" fill="#475569"/>
+<rect x="465" y="200" width="250" height="90" rx="12" fill="#ede9fe" stroke="#c4b5fd" stroke-width="2"/>
+<text class="mono" font-family="monospace" font-size="18" fill="#172554" x="483" y="236">max(2,0) + 1</text>
+<text class="label" font-family="sans-serif" font-size="21" font-weight="600" fill="#172554" x="483" y="272">候选子深度 = 3</text>
+<path class="arrow" fill="none" stroke="#475569" stroke-width="2.5" d="M715 245 H740 V180 H760"/><polygon points="760,180 752,184 752,176" fill="#475569"/>
+<rect x="770" y="135" width="285" height="95" rx="12" fill="#fee2e2" stroke="#fca5a5" stroke-width="2"/>
+<text class="mono" font-family="monospace" font-size="18" fill="#172554" x="788" y="170">max_depth = 2</text>
+<text class="small" font-family="sans-serif" font-size="18" fill="#172554" x="788" y="207">3 &gt; 2：拒绝，不创建孩子</text>
+<path class="arrow" fill="none" stroke="#475569" stroke-width="2.5" d="M740 245 V305 H760"/><polygon points="760,305 752,309 752,301" fill="#475569"/><rect x="770" y="260" width="285" height="95" rx="12" fill="#dcfce7" stroke="#86efac" stroke-width="2"/>
+<text class="mono" font-family="monospace" font-size="18" fill="#172554" x="788" y="295">max_depth = 3</text>
+<text class="small" font-family="sans-serif" font-size="18" fill="#172554" x="788" y="332">3 ≤ 3：允许，child.depth=3</text>
+<text class="label" font-family="sans-serif" font-size="21" font-weight="600" fill="#172554" x="40" y="410">恢复时要一同传入 depth；只复制 events 会丢失这项元数据。</text>
+<text class="small" font-family="sans-serif" font-size="18" fill="#172554" x="40" y="445">深度限制管的是“沿一条链走几层”，不限制兄弟数量，也不是费用或进程隔离。</text>
+</svg>

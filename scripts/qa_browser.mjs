@@ -1,0 +1,65 @@
+/** Isolated, sandbox-enabled UI acceptance. No external requests are required. */
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import {fileURLToPath,pathToFileURL} from 'node:url';
+const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
+const {chromium}=await import(pathToFileURL(process.env.PLAYWRIGHT_MODULE).href);
+const browser=await chromium.launch({executablePath:process.env.HARNESS_CHROMIUM,headless:true,chromiumSandbox:true,args:['--disable-dev-shm-usage','--disable-gpu']});
+const results=[],errors=[];const out=path.join(root,'output/qa');await fs.mkdir(out,{recursive:true});
+const check=(name,value)=>{results.push({name,passed:!!value});if(!value)throw new Error(name)};
+try{
+ const context=await browser.newContext({viewport:{width:1440,height:1000}});const page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));
+ await context.setOffline(true);
+ const url=file=>pathToFileURL(path.join(root,'site',file)).href;
+ await page.goto(url('index.html'));await page.evaluate(()=>document.fonts.ready);
+ check('home has all 14 units',await page.locator('.chapter-card').count()===14);
+ check('desktop no horizontal overflow',await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
+ await page.screenshot({path:path.join(out,'home-desktop.png'),fullPage:true});
+ await page.locator('#search').fill('审批');check('offline search returns matches',await page.locator('#search-results a').count()>0);await page.locator('#search').fill('');
+ await page.locator('#theme').click();check('dark theme toggle',await page.locator('body').getAttribute('data-theme')==='dark');await page.locator('#theme').click();
+ await page.goto(url('s04-guards.html'));await page.locator('[data-complete]').click();check('progress marked',await page.locator('[data-complete]').getAttribute('aria-pressed')==='true');
+ await page.reload();check('progress persists after reload',await page.locator('[data-complete]').getAttribute('aria-pressed')==='true');await page.locator('[data-complete]').click();check('progress undo',await page.locator('[data-complete]').getAttribute('aria-pressed')==='false');
+ await page.goto(url('traces.html'));check('trace starts first frame',(await page.locator('#trace-position').innerText()).startsWith('1 /'));
+ await page.locator('#trace-next').click();check('trace advances',(await page.locator('#trace-position').innerText()).startsWith('2 /'));await page.locator('#trace-prev').click();check('trace reverses',(await page.locator('#trace-position').innerText()).startsWith('1 /'));
+ await page.locator('#trace-case').selectOption('1');while(!(await page.locator('#trace-next').isDisabled()))await page.locator('#trace-next').click();check('denial visible in recorded history',(await page.locator('#trace-projection').innerText()).includes('DENIED'));
+ await page.locator('#trace-reset').click();check('trace resets',(await page.locator('#trace-position').innerText()).startsWith('1 /'));
+ await page.screenshot({path:path.join(out,'trace-desktop.png'),fullPage:false});
+ const cfg=JSON.parse(await fs.readFile(path.join(root,'book.json'),'utf8'));
+ for(const ch of cfg.chapters){await page.goto(url(ch.slug+'.html'));check('desktop width '+ch.slug,await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));}
+ await page.goto(url('capstone.html'));
+ await page.locator('.diagram-scroll').first().scrollIntoViewIfNeeded();
+ await page.screenshot({path:path.join(out,'capstone-desktop.png'),fullPage:false});
+ check('capstone shows explained implementation',await page.locator('article a[href*="scenarios.py.html#L"]').count()===3);
+ await page.goto(url('s05-settlement.html'));await page.screenshot({path:path.join(out,'settlement-desktop.png'),fullPage:false});
+ const sourceLink=page.locator('article a[href*=".py.html#L"]').first();
+ const sourceHref=await sourceLink.getAttribute('href');await sourceLink.click();
+ check('source link reaches exact local line',await page.locator(new URL(page.url()).hash).count()===1);
+ check('source viewer contains real code',(await page.locator('.code-file').innerText()).includes('await run_batch'));
+ await page.goBack();check('source back returns to lesson',page.url()===url('s05-settlement.html'));
+ await page.locator('.pager a').last().click();check('next lesson navigation',page.url()===url('s06-compaction.html'));
+ await page.goBack();await page.waitForURL(url('s05-settlement.html'));check('back preserves lesson navigation',page.url()===url('s05-settlement.html'));
+ await page.setViewportSize({width:390,height:844});await page.goto(url('index.html'));check('mobile no horizontal overflow',await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
+ await page.locator('#menu').click();check('mobile menu opens',await page.locator('#menu').getAttribute('aria-expanded')==='true');await page.keyboard.press('Escape');check('escape closes mobile menu',await page.locator('#menu').getAttribute('aria-expanded')==='false');
+ await page.screenshot({path:path.join(out,'home-mobile.png'),fullPage:true});
+ for(const ch of cfg.chapters){await page.goto(url(ch.slug+'.html'));check('mobile width '+ch.slug,await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));}
+ await page.goto(url('capstone.html'));
+ await page.locator('.diagram-scroll').first().scrollIntoViewIfNeeded();
+ await page.screenshot({path:path.join(out,'capstone-mobile.png'),fullPage:false});
+ check('capstone mobile diagram scrolls',await page.locator('.diagram-scroll').first().evaluate(n=>n.scrollWidth>n.clientWidth+100));
+ await page.goto(url('s04-guards.html'));
+ check('mobile has horizontal code scroll',await page.locator('pre').evaluateAll(nodes=>nodes.some(n=>n.scrollWidth>n.clientWidth+10)));
+ check('mobile diagram stays readable and scrolls',await page.locator('.diagram-scroll').first().evaluate(n=>n.scrollWidth>n.clientWidth+100));
+ const diagram=page.locator('.diagram-original').first();await diagram.scrollIntoViewIfNeeded();
+ await page.screenshot({path:path.join(out,'guards-mobile-diagram.png'),fullPage:false});
+ await diagram.click();check('diagram original opens SVG',new URL(page.url()).pathname.endsWith('.svg'));
+ await page.goBack();check('diagram back returns to lesson',page.url()===url('s04-guards.html'));
+ const wideCode=page.locator('pre').filter({hasText:'decision = "allow"'}).first();await wideCode.scrollIntoViewIfNeeded();
+ await wideCode.evaluate(n=>n.scrollLeft=n.scrollWidth);check('mobile code scroll position changes',await wideCode.evaluate(n=>n.scrollLeft)>0);
+ await page.screenshot({path:path.join(out,'guards-mobile-code.png'),fullPage:false});
+ await page.goto(url('traces.html'));check('mobile trace width',await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));await page.screenshot({path:path.join(out,'trace-mobile.png'),fullPage:false});
+ await page.goto(url('book.html'));check('combined book has 14 chapters',await page.locator('.book-chapter').count()===14);check('combined trace initializes',await page.locator('#trace-case option').count()===5);
+ check('no page errors',errors.length===0);
+ await context.close();
+ const offline=await browser.newContext({javaScriptEnabled:false,viewport:{width:1280,height:900}});const nojs=await offline.newPage();await nojs.goto(url('traces.html'));check('no-JS trace fallback present',(await nojs.locator('table').count())===5);await offline.close();
+}finally{await browser.close();await fs.writeFile(path.join(out,'browser-results.json'),JSON.stringify({results,errors},null,2));}
+console.log(JSON.stringify({checks:results.length,passed:results.filter(x=>x.passed).length,errors},null,2));

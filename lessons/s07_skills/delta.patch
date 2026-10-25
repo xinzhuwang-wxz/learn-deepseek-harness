@@ -1,0 +1,47 @@
+--- s06_compaction/code.py
++++ s07_skills/code.py
+@@ -1,4 +1,4 @@
+-"""Stage 6: original offline teaching snapshot; not the dsh runtime."""
++"""Stage 7: original offline teaching snapshot; not the dsh runtime."""
+ 
+ from __future__ import annotations
+ 
+@@ -246,6 +246,22 @@
+             return session.messages()
+     raise RuntimeError("teaching step budget exhausted")
+ 
++class SkillCatalog:
++    def __init__(self):
++        self.skills = {}
++        self.loads = 0
++
++    def register(self, name, description, body):
++        self.skills[name] = (description, body)
++
++    def list(self):
++        return [{"name": name, "description": item[0]} for name, item in sorted(self.skills.items())]
++
++    def load(self, name):
++        body = self.skills[name][1]
++        self.loads += 1
++        return body
++
+ async def demo():
+     session = Session()
+     session.append('user/message', text='Double 21')
+@@ -255,9 +271,12 @@
+                                   parallel=lambda _: True))
+     calls = [{'id': 'c1', 'name': 'double', 'args': {'value': 21}}]
+     await agent_loop([{'calls': calls}, {'text': '42'}], registry, root, session)
+-    before = len(session.events)
+-    session.compact_prefix(3, 'Confirmed: double 21 is 42.')
+-    return {'log_before': before, 'log_after': len(session.events), 'surface_count': len(session.messages())}
++    catalog = SkillCatalog()
++    catalog.register('explain', 'Explain a verified result', 'Show the input, operation, and confirmed output.')
++    index = catalog.list()
++    before = catalog.loads
++    body = catalog.load('explain')
++    return {'index': index, 'loads_before': before, 'loads_after': catalog.loads, 'body': body}
+ 
+ 
+ if __name__ == '__main__':
